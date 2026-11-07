@@ -4,7 +4,9 @@ import { ref } from 'vue'
 import iconHeart from './assets/heart.svg'
 import iconLeaf from './assets/leaf.svg'
 import iconClock from './assets/clock.svg'
+import iconList from './assets/list.svg'
 import imgSyrnyky from './assets/syrnyky.jpg'
+
 
 const recipeOfDay = ref({
   title: 'Сирники з ягідним соусом',
@@ -14,6 +16,7 @@ const recipeOfDay = ref({
 })
 
 const cookingTime = ref('35 хв')
+const ingredientsCount = ref(9)
 
 </script>
 
@@ -57,6 +60,12 @@ const cookingTime = ref('35 хв')
               <img :src="iconClock" alt="Годинник" class="icon-clock" />
                {{ cookingTime }}
             </span>
+
+             <span class="meta-item">
+              <img :src="iconList" alt="Список" class="icon-list" />
+              {{ ingredientsCount }} інгредієнтів
+            </span>
+
           </div>
         </div>
       </div>
@@ -66,17 +75,30 @@ const cookingTime = ref('35 хв')
 </template>
 
 <style scoped>
-.type-veg {
-  background-color: var(--veg-soft);
-  color: var(--veg-default);
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+
+.app-header {
+  text-align: center;
+  margin-bottom: 40px;
 }
 
-.icon-leaf {
-  width: 14px;
-  height: 14px;
-  filter: invert(37%) sepia(59%) saturate(467%) hue-rotate(81deg) brightness(91%) contrast(85%);
+.app-title {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.app-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+  text-align: center;
 }
 </style>
