@@ -9,9 +9,12 @@ import imgSyrnyky from './assets/syrnyky.jpg'
 const recipeOfDay = ref({
   title: 'Сирники з ягідним соусом',
   category: 'Сніданок',
-  cookingTime: '35 хв',
    image: imgSyrnyky
-})</script>
+})
+
+const cookingTime = ref('35 хв')
+
+</script>
 
 <template>
   <div id="app" class="container">
@@ -48,7 +51,7 @@ const recipeOfDay = ref({
           <div class="card-meta-info-row">
             <span class="meta-item">
               <img :src="iconClock" alt="Годинник" class="icon-clock" />
-              {{ recipeOfDay.cookingTime }}
+               {{ cookingTime }}
             </span>
           </div>
         </div>
