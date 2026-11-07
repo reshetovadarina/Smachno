@@ -1,13 +1,16 @@
 <script setup>
 import { ref } from 'vue'
+
 import iconHeart from './assets/heart.svg'
 import iconLeaf from './assets/leaf.svg'
 import iconClock from './assets/clock.svg'
+import imgSyrnyky from './assets/syrnyky.jpg'
 
 const recipeOfDay = ref({
   title: 'Сирники з ягідним соусом',
   category: 'Сніданок',
   cookingTime: '35 хв',
+   image: imgSyrnyky
 })</script>
 
 <template>
@@ -23,7 +26,7 @@ const recipeOfDay = ref({
 
       <div class="recipe-card-vertical">
         <div class="card-media-wrapper">
-
+          <img :src="recipeOfDay.image" :alt="recipeOfDay.title" class="recipe-main-img" />
 
           <button class="card-favorite-action" aria-label="Додати в улюблене">
             <img :src="iconHeart" alt="Сердечко" class="icon-heart" />
