@@ -9,7 +9,8 @@ import imgSyrnyky from './assets/syrnyky.jpg'
 const recipeOfDay = ref({
   title: 'Сирники з ягідним соусом',
   category: 'Сніданок',
-   image: imgSyrnyky
+   image: imgSyrnyky,
+   isVegetarian: true
 })
 
 const cookingTime = ref('35 хв')
@@ -40,7 +41,10 @@ const cookingTime = ref('35 хв')
           <div class="badge-row">
             <span class="category-badge-pill type-breakfast">{{ recipeOfDay.category }}</span>
 
-            <span class="category-badge-pill type-veg">
+             <span
+              class="category-badge-pill"
+              :class="{ 'type-veg': recipeOfDay.isVegetarian }"
+            >
               <img :src="iconLeaf" alt="Листочок" class="icon-leaf" />
               Вегетаріанська
             </span>
@@ -61,4 +65,18 @@ const cookingTime = ref('35 хв')
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.type-veg {
+  background-color: var(--veg-soft);
+  color: var(--veg-default);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.icon-leaf {
+  width: 14px;
+  height: 14px;
+  filter: invert(37%) sepia(59%) saturate(467%) hue-rotate(81deg) brightness(91%) contrast(85%);
+}
+</style>
