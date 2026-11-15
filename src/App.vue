@@ -124,14 +124,23 @@ const calculatedIngredients = computed(() => {
           </button>
         </div>
 
-          <div class="ingredients-preview">
-          <h3>Інгредієнти (на {{ portions }} порц.):</h3>
-          <ul>
-            <li v-for="item in calculatedIngredients" :key="item.id">
-              {{ item.name }} — <strong>{{ item.totalAmount }} {{ item.unit }}</strong>
+        <div class="ingredients-preview">
+          <h3 class="ingredients-title">Інгредієнти (на {{ portions }} порц.)</h3>
+          <ul class="ingredients-list">
+            <li
+              v-for="item in calculatedIngredients"
+              :key="item.id"
+              class="ingredient-item"
+            >
+              <div class="ingredient-name-wrapper">
+                <span class="ingredient-dot"></span>
+                <span class="ingredient-name">{{ item.name }}</span>
+              </div>
+              <span class="ingredient-amount">{{ item.totalAmount }} {{ item.unit }}</span>
             </li>
           </ul>
         </div>
+
      </main>
   </div>
 </template>
