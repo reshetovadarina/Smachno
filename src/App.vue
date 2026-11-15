@@ -7,6 +7,19 @@ import iconClock from './assets/clock.svg'
 import iconList from './assets/list.svg'
 import imgSyrnyky from './assets/syrnyky.jpg'
 
+const cookingTime = ref('35 хв')
+const ingredientsCount = ref(9)
+const portions = ref(4)
+
+const decreasePortions = () => {
+  if (portions.value > 1) {
+    portions.value--
+  }
+}
+
+const increasePortions = () => {
+  portions.value++
+}
 
 const recipeOfDay = ref({
   title: 'Сирники з ягідним соусом',
@@ -15,22 +28,19 @@ const recipeOfDay = ref({
    isVegetarian: true
 })
 
-const cookingTime = ref('35 хв')
-const ingredientsCount = ref(9)
-
 </script>
 
 <template>
   <div id="app" class="container">
     <header class="app-header">
-      <h1>Смачно</h1>
+      <h1 class="app-title" >Смачно</h1>
       <p class="app-subtitle">Інтерактивна кулінарна книга</p>
     </header>
 
-    <main class="recipe-section">
         <main class="recipe-section">
       <h2 class="section-title">Рецепт дня</h2>
 
+      <div class="recipe-of-day-wrapper"></div>
       <div class="recipe-card-vertical">
         <div class="card-media-wrapper">
           <img :src="recipeOfDay.image" :alt="recipeOfDay.title" class="recipe-main-img" />
@@ -69,13 +79,36 @@ const ingredientsCount = ref(9)
           </div>
         </div>
       </div>
-    </main>
-    </main>
+
+ <div class="portions-counter">
+          <button
+            class="portions-btn"
+            @click="decreasePortions"
+            :disabled="portions <= 1"
+            aria-label="Зменшити кількість порцій"
+          >
+            −
+          </button>
+
+          <div class="portions-info">
+            <span class="portions-value">{{ portions }}</span>
+            <span class="portions-label">порції</span>
+          </div>
+
+          <button
+            class="portions-btn"
+            @click="increasePortions"
+            aria-label="Збільшити кількість порцій"
+          >
+            +
+          </button>
+        </div>
+
+     </main>
   </div>
 </template>
 
 <style scoped>
-
 .app-header {
   text-align: center;
   margin-bottom: 40px;
@@ -101,4 +134,19 @@ const ingredientsCount = ref(9)
   color: var(--text-primary);
   text-align: center;
 }
+
+.recipe-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 15px;
+}
+
+.recipe-of-day-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+
 </style>
