@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 
 import iconHeart from './assets/heart.svg'
 import iconLeaf from './assets/leaf.svg'
@@ -40,6 +40,14 @@ const ingredients = reactive([
   { id: 9, name: 'Мед для соусу', amountPerPortion: 10, unit: 'г' }
 ])
 
+const calculatedIngredients = computed(() => {
+  return ingredients.map((ingredient) => {
+    return {
+      ...ingredient,
+      totalAmount: ingredient.amountPerPortion * portions.value
+    }
+  })
+})
 </script>
 
 <template>
@@ -116,6 +124,14 @@ const ingredients = reactive([
           </button>
         </div>
 
+          <div class="ingredients-preview">
+          <h3>Інгредієнти (на {{ portions }} порц.):</h3>
+          <ul>
+            <li v-for="item in calculatedIngredients" :key="item.id">
+              {{ item.name }} — <strong>{{ item.totalAmount }} {{ item.unit }}</strong>
+            </li>
+          </ul>
+        </div>
      </main>
   </div>
 </template>
