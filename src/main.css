@@ -235,12 +235,24 @@ body {
   margin-top: 8px;
 }
 
+.ingredients-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
 .ingredients-title {
   font-family: var(--font-display);
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--text-primary);
   margin: 0;
+}
+
+.ingredients-count-badge {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 .ingredients-list {

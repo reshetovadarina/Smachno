@@ -1,11 +1,11 @@
 <script setup>
 import { ref, reactive, computed } from 'vue'
+import iconHeart from './icons/heart.svg'
+import iconLeaf from './icons/leaf.svg'
+import iconClock from './icons/clock.svg'
+import iconList from './icons/list.svg'
 
-import iconHeart from './assets/heart.svg'
-import iconLeaf from './assets/leaf.svg'
-import iconClock from './assets/clock.svg'
-import iconList from './assets/list.svg'
-import imgSyrnyky from './assets/syrnyky.jpg'
+import imgSyrnyky from './syrnyky.jpg'
 
 const cookingTime = ref('35 хв')
 const ingredientsCount = ref(9)
@@ -48,6 +48,11 @@ const calculatedIngredients = computed(() => {
     }
   })
 })
+
+const ingredientsCountLabel = computed(() => {
+  return `Інгредієнтів: ${ingredients.length}`
+})
+
 </script>
 
 <template>
@@ -123,9 +128,12 @@ const calculatedIngredients = computed(() => {
             +
           </button>
         </div>
+          <div class="ingredients-preview">
+          <div class="ingredients-header">
+            <h3 class="ingredients-title">Інгредієнти (на {{ portions }} порц.)</h3>
+            <span class="ingredients-count-badge">{{ ingredientsCountLabel }}</span>
+          </div>
 
-        <div class="ingredients-preview">
-          <h3 class="ingredients-title">Інгредієнти (на {{ portions }} порц.)</h3>
           <ul class="ingredients-list">
             <li
               v-for="item in calculatedIngredients"
