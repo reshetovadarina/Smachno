@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 
 import iconHeart from './assets/heart.svg'
 import iconLeaf from './assets/leaf.svg'
@@ -27,6 +27,18 @@ const recipeOfDay = ref({
    image: imgSyrnyky,
    isVegetarian: true
 })
+
+const ingredients = reactive([
+  { id: 1, name: 'Кисломолочний сир', amountPerPortion: 100, unit: 'г' },
+  { id: 2, name: 'Яйце куряче', amountPerPortion: 0.5, unit: 'шт.' },
+  { id: 3, name: 'Борошно пшеничне', amountPerPortion: 15, unit: 'г' },
+  { id: 4, name: 'Цукор', amountPerPortion: 10, unit: 'г' },
+  { id: 5, name: 'Ванільний цукор', amountPerPortion: 2, unit: 'г' },
+  { id: 6, name: 'Дрібка солі', amountPerPortion: 1, unit: 'г' },
+  { id: 7, name: 'Олія для смаження', amountPerPortion: 5, unit: 'мл' },
+  { id: 8, name: 'Свіжі або заморожені ягоди', amountPerPortion: 50, unit: 'г' },
+  { id: 9, name: 'Мед для соусу', amountPerPortion: 10, unit: 'г' }
+])
 
 </script>
 
@@ -73,7 +85,7 @@ const recipeOfDay = ref({
 
              <span class="meta-item">
               <img :src="iconList" alt="Список" class="icon-list" />
-              {{ ingredientsCount }} інгредієнтів
+              {{ ingredients.length  }} інгредієнтів
             </span>
 
           </div>
