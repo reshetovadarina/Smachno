@@ -6,7 +6,30 @@ import iconClock from './icons/clock.svg'
 import iconList from './icons/list.svg'
 import iconSearch from './icons/search.svg'
 import iconClose from './icons/close.svg'
+import iconSun from './icons/sun.svg'
+import iconMoon from './icons/moon.svg'
 import imgSyrnyky from './syrnyky.jpg'
+
+const THEME_STORAGE_KEY = 'smachno-theme'
+const isDark = ref(localStorage.getItem(THEME_STORAGE_KEY) === 'dark')
+
+const toggleTheme = () => {
+  isDark.value = !isDark.value
+}
+
+watch(
+  isDark,
+  (darkValue) => {
+    if (darkValue) {
+      document.documentElement.classList.add('dark')
+      localStorage.setItem(THEME_STORAGE_KEY, 'dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+      localStorage.setItem(THEME_STORAGE_KEY, 'light')
+    }
+  },
+  { immediate: true }
+)
 
 const searchQuery = ref('')
 
@@ -77,8 +100,21 @@ const ingredientsCountLabel = computed(() => {
 <template>
   <div id="app" class="container">
     <header class="app-header">
+     <div class="header-top-row">
+        <div class="header-titles">
       <h1 class="app-title" >Смачно</h1>
       <p class="app-subtitle">Інтерактивна кулінарна книга</p>
+       </div>
+        <button
+          @click="toggleTheme"
+          type="button"
+          class="theme-toggle-btn"
+          :aria-label="isDark ? 'Увімкнути світлу тему' : 'Увімкнути темну тему'"
+        >
+          <img :src="isDark ? iconSun : iconMoon" alt="Іконка теми" class="theme-icon" />
+          <span>{{ isDark ? 'Світла' : 'Темна' }}</span>
+        </button>
+      </div>
     </header>
 
         <main class="recipe-section">
@@ -196,6 +232,17 @@ const ingredientsCountLabel = computed(() => {
 .app-header {
   text-align: center;
   margin-bottom: 40px;
+}
+
+.header-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-titles {
+  text-align: left;
 }
 
 .app-title {
