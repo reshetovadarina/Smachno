@@ -9,7 +9,12 @@ import iconSearch from './icons/search.svg'
 import iconClose from './icons/close.svg'
 import iconSun from './icons/sun.svg'
 import iconMoon from './icons/moon.svg'
-import imgSyrnyky from './syrnyky.jpg'
+
+import {
+  initialCookingTime,
+  initialRecipeOfDay,
+  initialIngredients
+} from './data/recipes.js'
 
 const THEME_STORAGE_KEY = 'smachno-theme'
 const STORAGE_KEY = 'smachno-portions'
@@ -19,26 +24,10 @@ const searchQuery = ref('')
 
 const savedPortions = Number(localStorage.getItem(STORAGE_KEY))
 const portions = ref(savedPortions >= 1 ? savedPortions : 4)
-const cookingTime = ref('35')
+const cookingTime = ref(initialCookingTime)
 
-const recipeOfDay = ref({
-  title: 'Сирники з ягідним соусом',
-  category: 'Сніданок',
-   image: imgSyrnyky,
-   isVegetarian: true
-})
-
-const ingredients = reactive([
-  { id: 1, name: 'Кисломолочний сир', amountPerPortion: 100, unit: 'г' },
-  { id: 2, name: 'Яйце куряче', amountPerPortion: 0.5, unit: 'шт.' },
-  { id: 3, name: 'Борошно пшеничне', amountPerPortion: 15, unit: 'г' },
-  { id: 4, name: 'Цукор', amountPerPortion: 10, unit: 'г' },
-  { id: 5, name: 'Ванільний цукор', amountPerPortion: 2, unit: 'г' },
-  { id: 6, name: 'Дрібка солі', amountPerPortion: 1, unit: 'г' },
-  { id: 7, name: 'Олія для смаження', amountPerPortion: 5, unit: 'мл' },
-  { id: 8, name: 'Свіжі або заморожені ягоди', amountPerPortion: 50, unit: 'г' },
-  { id: 9, name: 'Мед для соусу', amountPerPortion: 10, unit: 'г' }
-])
+const recipeOfDay = ref({ ...initialRecipeOfDay })
+const ingredients = reactive([...initialIngredients])
 
 const ingredientsCountLabel = computed(() => {
   return `Інгредієнтів: ${ingredients.length}`
@@ -90,7 +79,7 @@ watch(searchQuery, (newQuery) => {
 })
 
 watch(portions, (newVal) => {
-  localStorage.setItem(STORAGE_KEY, String(newVal))
+  localStorage.setItem(PORTIONS_STORAGE_KEY, String(newVal))
 })
 
 </script>
