@@ -4,7 +4,19 @@ import iconHeart from './icons/heart.svg'
 import iconLeaf from './icons/leaf.svg'
 import iconClock from './icons/clock.svg'
 import iconList from './icons/list.svg'
+import iconSearch from './icons/search.svg'
+import iconClose from './icons/close.svg'
 import imgSyrnyky from './syrnyky.jpg'
+
+const searchQuery = ref('')
+
+const clearSearch = () => {
+  searchQuery.value = ''
+}
+
+watch(searchQuery, (newQuery) => {
+  console.log('Пошуковий запит:', newQuery)
+})
 
 const STORAGE_KEY = 'smachno-portions'
 
@@ -70,6 +82,26 @@ const ingredientsCountLabel = computed(() => {
     </header>
 
         <main class="recipe-section">
+        <div class="search-wrapper">
+        <img :src="iconSearch" alt="Пошук" class="search-icon-left" />
+
+        <input
+          v-model="searchQuery"
+          type="text"
+          placeholder="Пошук рецепта за назвою"
+          class="search-input"
+        />
+
+        <button
+          v-if="searchQuery"
+          @click="clearSearch"
+          type="button"
+          class="search-clear-btn"
+          aria-label="Очистити пошук"
+        >
+          <img :src="iconClose" alt="Очистити" class="search-icon-close" />
+        </button>
+      </div>
       <h2 class="section-title">Рецепт дня</h2>
 
       <div class="recipe-of-day-wrapper"></div>
