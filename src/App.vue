@@ -1,15 +1,22 @@
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, watch } from 'vue'
 import iconHeart from './icons/heart.svg'
 import iconLeaf from './icons/leaf.svg'
 import iconClock from './icons/clock.svg'
 import iconList from './icons/list.svg'
-
 import imgSyrnyky from './syrnyky.jpg'
+
+const STORAGE_KEY = 'smachno-portions'
+
+const savedPortions = Number(localStorage.getItem(STORAGE_KEY))
+const portions = ref(savedPortions >= 1 ? savedPortions : 4)
+
+watch(portions, (newVal) => {
+  localStorage.setItem(STORAGE_KEY, String(newVal))
+})
 
 const cookingTime = ref('35 хв')
 const ingredientsCount = ref(9)
-const portions = ref(4)
 
 const decreasePortions = () => {
   if (portions.value > 1) {
