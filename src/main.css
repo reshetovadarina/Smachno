@@ -70,14 +70,21 @@
 }
 
 body {
+  display: block;
+  width: 100%;
   background-color: var(--bg-canvas);
   color: var(--text-primary);
+  font-family: var(--font-display);
   font-family: var(--font-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
 }
 
+#app {
+  width: 100%;
+  display: block;
+}
 :root.dark .icon-heart,
 :root.dark .icon-clock,
 :root.dark .icon-list,
@@ -117,8 +124,10 @@ body {
 
 .container {
   max-width: var(--max-width-content);
-  padding: 64px;
+  margin: 0 auto;
+  padding: 40px 20px;
   width: 100%;
+  font-family: var(--font-text);
 }
 
 .recipe-card-vertical {

@@ -1,5 +1,6 @@
 <script setup>
 import { ref, reactive, computed, watch } from 'vue'
+
 import iconHeart from './icons/heart.svg'
 import iconLeaf from './icons/leaf.svg'
 import iconClock from './icons/clock.svg'
@@ -11,57 +12,14 @@ import iconMoon from './icons/moon.svg'
 import imgSyrnyky from './syrnyky.jpg'
 
 const THEME_STORAGE_KEY = 'smachno-theme'
-const isDark = ref(localStorage.getItem(THEME_STORAGE_KEY) === 'dark')
-
-const toggleTheme = () => {
-  isDark.value = !isDark.value
-}
-
-watch(
-  isDark,
-  (darkValue) => {
-    if (darkValue) {
-      document.documentElement.classList.add('dark')
-      localStorage.setItem(THEME_STORAGE_KEY, 'dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-      localStorage.setItem(THEME_STORAGE_KEY, 'light')
-    }
-  },
-  { immediate: true }
-)
-
-const searchQuery = ref('')
-
-const clearSearch = () => {
-  searchQuery.value = ''
-}
-
-watch(searchQuery, (newQuery) => {
-  console.log('Пошуковий запит:', newQuery)
-})
-
 const STORAGE_KEY = 'smachno-portions'
+
+const isDark = ref(localStorage.getItem(THEME_STORAGE_KEY) === 'dark')
+const searchQuery = ref('')
 
 const savedPortions = Number(localStorage.getItem(STORAGE_KEY))
 const portions = ref(savedPortions >= 1 ? savedPortions : 4)
-
-watch(portions, (newVal) => {
-  localStorage.setItem(STORAGE_KEY, String(newVal))
-})
-
-const cookingTime = ref('35 хв')
-const ingredientsCount = ref(9)
-
-const decreasePortions = () => {
-  if (portions.value > 1) {
-    portions.value--
-  }
-}
-
-const increasePortions = () => {
-  portions.value++
-}
+const cookingTime = ref('35')
 
 const recipeOfDay = ref({
   title: 'Сирники з ягідним соусом',
@@ -82,6 +40,10 @@ const ingredients = reactive([
   { id: 9, name: 'Мед для соусу', amountPerPortion: 10, unit: 'г' }
 ])
 
+const ingredientsCountLabel = computed(() => {
+  return `Інгредієнтів: ${ingredients.length}`
+})
+
 const calculatedIngredients = computed(() => {
   return ingredients.map((ingredient) => {
     return {
@@ -91,14 +53,49 @@ const calculatedIngredients = computed(() => {
   })
 })
 
-const ingredientsCountLabel = computed(() => {
-  return `Інгредієнтів: ${ingredients.length}`
+const toggleTheme = () => {
+  isDark.value = !isDark.value
+}
+
+const clearSearch = () => {
+  searchQuery.value = ''
+}
+
+const decreasePortions = () => {
+  if (portions.value > 1) {
+    portions.value--
+  }
+}
+
+const increasePortions = () => {
+  portions.value++
+}
+
+watch(
+  isDark,
+  (darkValue) => {
+    if (darkValue) {
+      document.documentElement.classList.add('dark')
+      localStorage.setItem(THEME_STORAGE_KEY, 'dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+      localStorage.setItem(THEME_STORAGE_KEY, 'light')
+    }
+  },
+  { immediate: true }
+)
+
+watch(searchQuery, (newQuery) => {
+  console.log('Пошуковий запит:', newQuery)
+})
+
+watch(portions, (newVal) => {
+  localStorage.setItem(STORAGE_KEY, String(newVal))
 })
 
 </script>
 
 <template>
-  <div id="app" class="container">
     <header class="app-header">
      <div class="header-top-row">
         <div class="header-titles">
@@ -168,7 +165,7 @@ const ingredientsCountLabel = computed(() => {
           <div class="card-meta-info-row">
             <span class="meta-item">
               <img :src="iconClock" alt="Годинник" class="icon-clock" />
-               {{ cookingTime }}
+               {{ cookingTime }} хв
             </span>
 
              <span class="meta-item">
@@ -225,12 +222,11 @@ const ingredientsCountLabel = computed(() => {
         </div>
 
      </main>
-  </div>
+
 </template>
 
 <style scoped>
 .app-header {
-  text-align: center;
   margin-bottom: 40px;
 }
 
@@ -246,7 +242,6 @@ const ingredientsCountLabel = computed(() => {
 }
 
 .app-title {
-  font-family: var(--font-display);
   font-size: 3rem;
   font-weight: 700;
   margin-bottom: 8px;
@@ -259,7 +254,6 @@ const ingredientsCountLabel = computed(() => {
 }
 
 .section-title {
-  font-family: var(--font-display);
   font-size: 1.5rem;
   margin-bottom: 20px;
   color: var(--text-primary);
@@ -269,15 +263,15 @@ const ingredientsCountLabel = computed(() => {
 .recipe-section {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  margin-top: 15px;
+  align-items: center;
+  margin-top: 24px;
 }
 
 .recipe-of-day-wrapper {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  align-items: flex-start;
+  align-items:center;
 }
 
 </style>
