@@ -29,6 +29,12 @@ const cookingTime = ref(initialCookingTime)
 const recipeOfDay = ref({ ...initialRecipeOfDay })
 const ingredients = reactive([...initialIngredients])
 
+const themeToggle = computed(() =>
+  isDark.value
+    ? { icon: iconSun, label: 'Світла', ariaLabel: 'Увімкнути світлу тему' }
+    : { icon: iconMoon, label: 'Темна', ariaLabel: 'Увімкнути темну тему' }
+)
+
 const ingredientsCountLabel = computed(() => `Інгредієнтів: ${ingredients.length}`)
 
 const calculatedIngredients = computed(() =>
@@ -86,10 +92,10 @@ watch(portions, (newVal) => {
           @click="toggleTheme"
           type="button"
           class="theme-toggle-btn"
-          :aria-label="isDark ? 'Увімкнути світлу тему' : 'Увімкнути темну тему'"
+          :aria-label="themeToggle.ariaLabel"
         >
-          <img :src="isDark ? iconSun : iconMoon" alt="Іконка теми" class="theme-icon" />
-          <span>{{ isDark ? 'Світла' : 'Темна' }}</span>
+          <img :src="themeToggle.icon" alt="Іконка теми" class="theme-icon" />
+          <span>{{ themeToggle.label }}</span>
         </button>
       </div>
     </header>
