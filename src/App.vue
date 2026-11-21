@@ -13,7 +13,8 @@ import iconMoon from './icons/moon.svg'
 import {
   initialCookingTime,
   initialRecipeOfDay,
-  initialIngredients
+  initialIngredients,
+  recipesList
 } from './data/recipes.js'
 
 const THEME_STORAGE_KEY = 'smachno-theme'
@@ -28,6 +29,7 @@ const cookingTime = ref(initialCookingTime)
 
 const recipeOfDay = ref({ ...initialRecipeOfDay })
 const ingredients = reactive([...initialIngredients])
+const recipes = reactive([...recipesList])
 
 const themeToggle = computed(() =>
   isDark.value
@@ -206,7 +208,57 @@ watch(portions, (newVal) => {
             </li>
           </ul>
         </div>
+ <section class="all-recipes-section">
+        <h2 class="section-title">Усі рецепти</h2>
 
+        <div class="recipes-grid">
+          <div
+            v-for="recipe in recipes"
+            :key="recipe.id"
+            class="recipe-card-vertical"
+          >
+            <div class="card-media-wrapper">
+              <img
+                v-if="recipe.image"
+                :src="recipe.image"
+                :alt="recipe.title"
+                class="recipe-main-img"
+              />
+
+              <button class="card-favorite-action" aria-label="Додати в улюблене">
+                <img :src="iconHeart" alt="Сердечко" class="icon-heart" />
+              </button>
+            </div>
+
+            <div class="card-body-details">
+              <div class="badge-row">
+                <span class="category-badge-pill type-breakfast">{{ recipe.category }}</span>
+
+                <span
+                  v-if="recipe.isVegetarian"
+                  class="category-badge-pill type-veg"
+                >
+                  <img :src="iconLeaf" alt="Листочок" class="icon-leaf" />
+                  Вегетаріанська
+                </span>
+              </div>
+
+              <h3 class="card-recipe-title">{{ recipe.title }}</h3>
+
+              <div class="card-meta-info-row">
+                <span class="meta-item">
+                  <img :src="iconClock" alt="Годинник" class="icon-clock" />
+                  {{ recipe.cookingTime }} хв
+                </span>
+                <span class="meta-item">
+                  <img :src="iconList" alt="Список" class="icon-list" />
+                  {{ recipe.ingredientsCount }} інгредієнтів
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
      </main>
 
 </template>

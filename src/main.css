@@ -433,3 +433,16 @@ body {
   width: 16px;
   height: 16px;
 }
+
+.all-recipes-section {
+  width: 100%;
+  margin-top: 48px;
+}
+
+.recipes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+  width: 100%;
+  justify-items: center;
+}
