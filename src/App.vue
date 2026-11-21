@@ -29,18 +29,14 @@ const cookingTime = ref(initialCookingTime)
 const recipeOfDay = ref({ ...initialRecipeOfDay })
 const ingredients = reactive([...initialIngredients])
 
-const ingredientsCountLabel = computed(() => {
-  return `Інгредієнтів: ${ingredients.length}`
-})
+const ingredientsCountLabel = computed(() => `Інгредієнтів: ${ingredients.length}`)
 
-const calculatedIngredients = computed(() => {
-  return ingredients.map((ingredient) => {
-    return {
-      ...ingredient,
-      totalAmount: ingredient.amountPerPortion * portions.value
-    }
-  })
-})
+const calculatedIngredients = computed(() =>
+  ingredients.map((ingredient) => ({
+    ...ingredient,
+    totalAmount: ingredient.amountPerPortion * portions.value
+  }))
+)
 
 const toggleTheme = () => {
   isDark.value = !isDark.value
