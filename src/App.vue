@@ -17,12 +17,12 @@ import {
 } from './data/recipes.js'
 
 const THEME_STORAGE_KEY = 'smachno-theme'
-const STORAGE_KEY = 'smachno-portions'
+const PORTIONS_STORAGE_KEY = 'smachno-portions'
 
 const isDark = ref(localStorage.getItem(THEME_STORAGE_KEY) === 'dark')
 const searchQuery = ref('')
 
-const savedPortions = Number(localStorage.getItem(STORAGE_KEY))
+const savedPortions = Number(localStorage.getItem(PORTIONS_STORAGE_KEY))
 const portions = ref(savedPortions >= 1 ? savedPortions : 4)
 const cookingTime = ref(initialCookingTime)
 

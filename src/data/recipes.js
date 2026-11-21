@@ -1,4 +1,4 @@
-import imgSyrnyky from '../syrnyky.jpg'
+import imgSyrnyky from '../images/syrnyky.jpg'
 
 export const initialCookingTime = 35
 
