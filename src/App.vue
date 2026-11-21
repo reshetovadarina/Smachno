@@ -9,6 +9,7 @@ import iconSearch from './icons/search.svg'
 import iconClose from './icons/close.svg'
 import iconSun from './icons/sun.svg'
 import iconMoon from './icons/moon.svg'
+import iconChevronDown from './icons/chevron-down.svg'
 
 import {
   initialCookingTime,
@@ -22,6 +23,7 @@ const PORTIONS_STORAGE_KEY = 'smachno-portions'
 
 const isDark = ref(localStorage.getItem(THEME_STORAGE_KEY) === 'dark')
 const searchQuery = ref('')
+const selectedCategory = ref('')
 
 const savedPortions = Number(localStorage.getItem(PORTIONS_STORAGE_KEY))
 const portions = ref(savedPortions >= 1 ? savedPortions : 4)
@@ -48,10 +50,12 @@ const calculatedIngredients = computed(() =>
 
 const filteredRecipes = computed(() => {
   const query = searchQuery.value.trim().toLowerCase()
-  if (!query) return recipes
-  return recipes.filter((recipe) =>
-    recipe.title.toLowerCase().includes(query)
-  )
+
+  return recipes.filter((recipe) => {
+    const matchesSearch = !query || recipe.title.toLowerCase().includes(query)
+    const matchesCategory = !selectedCategory.value || recipe.category === selectedCategory.value
+    return matchesSearch && matchesCategory
+  })
 })
 
 const toggleTheme = () => {
@@ -111,25 +115,37 @@ watch(portions, (newVal) => {
     </header>
 
         <main class="recipe-section">
+        <div class="filters-bar">
         <div class="search-wrapper">
-        <img :src="iconSearch" alt="Пошук" class="search-icon-left" />
+          <img :src="iconSearch" alt="Пошук" class="search-icon-left" />
 
-        <input
-          v-model="searchQuery"
-          type="text"
-          placeholder="Пошук рецепта за назвою"
-          class="search-input"
-        />
+          <input
+            v-model="searchQuery"
+            type="text"
+            placeholder="Пошук рецепта за назвою"
+            class="search-input"
+          />
 
-        <button
-          v-if="searchQuery"
-          @click="clearSearch"
-          type="button"
-          class="search-clear-btn"
-          aria-label="Очистити пошук"
-        >
-          <img :src="iconClose" alt="Очистити" class="search-icon-close" />
-        </button>
+          <button
+            v-if="searchQuery"
+            @click="clearSearch"
+            type="button"
+            class="search-clear-btn"
+            aria-label="Очистити пошук"
+          >
+            <img :src="iconClose" alt="Очистити" class="search-icon-close" />
+          </button>
+        </div>
+
+        <div class="select-wrapper">
+          <select v-model="selectedCategory" class="category-select" aria-label="Категорія">
+            <option value="">Усі категорії</option>
+            <option value="Сніданок">Сніданок</option>
+            <option value="Обід">Обід</option>
+            <option value="Десерт">Десерт</option>
+          </select>
+          <img :src="iconChevronDown" alt="" class="select-icon-arrow" />
+        </div>
       </div>
       <h2 class="section-title">Рецепт дня</h2>
 

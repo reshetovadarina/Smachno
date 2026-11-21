@@ -52,7 +52,7 @@ export const recipesList = [
   {
     id: 4,
     title: 'Шарлотка з яблуками та корицею',
-    category: 'Випічка',
+    category: 'Десерт',
     cookingTime: 50,
     ingredientsCount: 6,
     image: '',
