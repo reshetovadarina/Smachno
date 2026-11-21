@@ -63,13 +63,8 @@ const increasePortions = () => {
 watch(
   isDark,
   (darkValue) => {
-    if (darkValue) {
-      document.documentElement.classList.add('dark')
-      localStorage.setItem(THEME_STORAGE_KEY, 'dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-      localStorage.setItem(THEME_STORAGE_KEY, 'light')
-    }
+    document.documentElement.classList.toggle('dark', darkValue)
+    localStorage.setItem(THEME_STORAGE_KEY, darkValue ? 'dark' : 'light')
   },
   { immediate: true }
 )
