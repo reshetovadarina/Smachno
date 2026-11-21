@@ -492,3 +492,60 @@ body {
   width: 100%;
   justify-items: center;
 }
+
+.empty-state-box {
+  width: 100%;
+  max-width: 480px;
+  margin: 24px auto;
+  padding: 40px 24px;
+  text-align: center;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.empty-state-icon {
+  width: 36px;
+  height: 36px;
+  opacity: 0.4;
+  margin-bottom: 4px;
+}
+
+:root.dark .empty-state-icon {
+  filter: invert(1) brightness(0.9);
+}
+
+.empty-state-title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.empty-state-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin: 0 0 8px 0;
+}
+
+.reset-filters-btn {
+  background-color: var(--accent-default);
+  color: var(--text-on-accent);
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-family: var(--font-text);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.reset-filters-btn:hover {
+  background-color: var(--accent-hover);
+}

@@ -62,6 +62,11 @@ const toggleTheme = () => {
   isDark.value = !isDark.value
 }
 
+const resetFilters = () => {
+  searchQuery.value = ''
+  selectedCategory.value = ''
+}
+
 const clearSearch = () => {
   searchQuery.value = ''
 }
@@ -236,7 +241,7 @@ watch(portions, (newVal) => {
          <section class="all-recipes-section">
         <h2 class="section-title">Усі рецепти</h2>
 
-        <div class="recipes-grid">
+     <div v-if="filteredRecipes.length > 0" class="recipes-grid">
           <div
             v-for="recipe in filteredRecipes"
             :key="recipe.id"
@@ -282,6 +287,17 @@ watch(portions, (newVal) => {
               </div>
             </div>
           </div>
+        </div>
+
+         <div v-else class="empty-state-box">
+          <img :src="iconSearch" alt="" class="empty-state-icon" />
+          <h3 class="empty-state-title">Такого рецепта ще немає</h3>
+          <p class="empty-state-desc">
+            Спробуйте змінити пошуковий запит або обрати іншу категорію
+          </p>
+          <button @click="resetFilters" type="button" class="reset-filters-btn">
+            Скинути фільтри
+          </button>
         </div>
       </section>
      </main>
