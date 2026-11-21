@@ -46,6 +46,14 @@ const calculatedIngredients = computed(() =>
   }))
 )
 
+const filteredRecipes = computed(() => {
+  const query = searchQuery.value.trim().toLowerCase()
+  if (!query) return recipes
+  return recipes.filter((recipe) =>
+    recipe.title.toLowerCase().includes(query)
+  )
+})
+
 const toggleTheme = () => {
   isDark.value = !isDark.value
 }
@@ -208,12 +216,13 @@ watch(portions, (newVal) => {
             </li>
           </ul>
         </div>
- <section class="all-recipes-section">
+
+         <section class="all-recipes-section">
         <h2 class="section-title">Усі рецепти</h2>
 
         <div class="recipes-grid">
           <div
-            v-for="recipe in recipes"
+            v-for="recipe in filteredRecipes"
             :key="recipe.id"
             class="recipe-card-vertical"
           >
