@@ -3,13 +3,19 @@ import iconHeart from '../icons/heart.svg'
 import iconLeaf from '../icons/leaf.svg'
 import iconClock from '../icons/clock.svg'
 import iconList from '../icons/list.svg'
+import iconHeartFilled from '../icons/heart-filled.svg'
 
 defineProps({
   recipe: {
     type: Object,
     required: true
+  },
+  isFavorite: {
+    type: Boolean,
+    default: false
   }
 })
+defineEmits(['toggle-favorite'])
 </script>
 
 <template>
@@ -17,8 +23,15 @@ defineProps({
     <div class="card-media-wrapper">
       <img v-if="recipe.image" :src="recipe.image" :alt="recipe.title" class="recipe-main-img" />
 
-      <button class="card-favorite-action" aria-label="Додати в улюблене">
-        <img :src="iconHeart" alt="Сердечко" class="icon-heart" />
+      <button
+        type="button"
+        class="card-favorite-action"
+        :class="{ 'is-favorite': isFavorite }"
+        :aria-label="isFavorite ? 'Видалити з обраного' : 'В обране'"
+        title="В обране"
+        @click="$emit('toggle-favorite', recipe.id)"
+      >
+        <img :src="isFavorite ? iconHeartFilled : iconHeart" alt="В обране" class="icon-heart" />
       </button>
     </div>
 

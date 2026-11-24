@@ -33,8 +33,8 @@
   --image-placeholder-a: #f2d2b6;
   --image-placeholder-b: #e9b48f;
 
-  --font-display: "Lora", "Georgia", serif;
-  --font-text: "Onest", sans-serif;
+  --font-display: 'Lora', 'Georgia', serif;
+  --font-text: 'Onest', sans-serif;
 
   --max-width-content: 1200px;
 }
@@ -67,6 +67,15 @@
   --heart-default: #ff6b6b;
   --image-placeholder-a: #3d2d24;
   --image-placeholder-b: #4a372c;
+}
+
+:root.dark .card-favorite-action:not(.is-favorite) .icon-heart,
+:root.dark .icon-clock,
+:root.dark .icon-list,
+:root.dark .search-icon-left,
+:root.dark .search-icon-close,
+:root.dark .theme-icon {
+  filter: invert(1) brightness(0.9);
 }
 
 body {
@@ -212,8 +221,7 @@ body {
 .icon-leaf {
   width: 16px;
   height: 16px;
-  filter: invert(37%) sepia(59%) saturate(467%) hue-rotate(81deg)
-    brightness(91%) contrast(85%);
+  filter: invert(37%) sepia(59%) saturate(467%) hue-rotate(81deg) brightness(91%) contrast(85%);
 }
 
 .card-recipe-title {

@@ -11,6 +11,7 @@ import { RECIPE_OF_DAY_ID, initialIngredients, recipesList } from './data/recipe
 
 const THEME_STORAGE_KEY = 'smachno-theme'
 const PORTIONS_STORAGE_KEY = 'smachno-portions'
+const favoriteIds = ref([])
 
 const isDark = ref(localStorage.getItem(THEME_STORAGE_KEY) === 'dark')
 const searchQuery = ref('')
@@ -69,6 +70,15 @@ const decreasePortions = () => {
 
 const increasePortions = () => {
   portions.value++
+}
+
+const toggleFavorite = (recipeId) => {
+  const index = favoriteIds.value.indexOf(recipeId)
+  if (index === -1) {
+    favoriteIds.value.push(recipeId)
+  } else {
+    favoriteIds.value.splice(index, 1)
+  }
 }
 
 watch(
@@ -144,7 +154,11 @@ watch(portions, (newVal) => {
     <h2 class="section-title">Рецепт дня</h2>
 
     <div class="recipe-of-day-wrapper">
-      <RecipeCard :recipe="recipeOfDay" />
+      <RecipeCard
+        :recipe="recipeOfDay"
+        :is-favorite="favoriteIds.includes(recipeOfDay.id)"
+        @toggle-favorite="toggleFavorite"
+      />
     </div>
 
     <div class="portions-counter">
@@ -191,7 +205,13 @@ watch(portions, (newVal) => {
       <h2 class="section-title">Усі рецепти</h2>
 
       <div v-if="filteredRecipes.length > 0" class="recipes-grid">
-        <RecipeCard v-for="recipe in filteredRecipes" :key="recipe.id" :recipe="recipe" />
+        <RecipeCard
+          v-for="recipe in filteredRecipes"
+          :key="recipe.id"
+          :recipe="recipe"
+          :is-favorite="favoriteIds.includes(recipe.id)"
+          @toggle-favorite="toggleFavorite"
+        />
       </div>
 
       <div v-else class="empty-state-box">
