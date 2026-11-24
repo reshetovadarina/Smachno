@@ -10,11 +10,13 @@ import { RECIPE_OF_DAY_ID, initialIngredients, recipesList } from './data/recipe
 
 const THEME_STORAGE_KEY = 'smachno-theme'
 const PORTIONS_STORAGE_KEY = 'smachno-portions'
+const FAVORITES_STORAGE_KEY = 'smachno-favorites'
 
 const isDark = ref(localStorage.getItem(THEME_STORAGE_KEY) === 'dark')
 const searchQuery = ref('')
 const selectedCategory = ref('')
-const favoriteIds = ref([])
+const savedFavorites = JSON.parse(localStorage.getItem(FAVORITES_STORAGE_KEY) || '[]')
+const favoriteIds = ref(Array.isArray(savedFavorites) ? savedFavorites : [])
 
 const savedPortions = Number(localStorage.getItem(PORTIONS_STORAGE_KEY))
 const portions = ref(savedPortions >= 1 ? savedPortions : 4)
@@ -92,6 +94,14 @@ watch(searchQuery, (newQuery) => {
 watch(portions, (newVal) => {
   localStorage.setItem(PORTIONS_STORAGE_KEY, String(newVal))
 })
+
+watch(
+  favoriteIds,
+  (newIds) => {
+    localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(newIds))
+  },
+  { deep: true }
+)
 </script>
 
 <template>
