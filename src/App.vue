@@ -1,10 +1,6 @@
 <script setup>
 import { ref, reactive, computed, watch } from 'vue'
-
-import iconHeart from './icons/heart.svg'
-import iconLeaf from './icons/leaf.svg'
-import iconClock from './icons/clock.svg'
-import iconList from './icons/list.svg'
+import RecipeCard from './components/RecipeCard.vue'
 import iconSearch from './icons/search.svg'
 import iconClose from './icons/close.svg'
 import iconSun from './icons/sun.svg'
@@ -147,40 +143,8 @@ watch(portions, (newVal) => {
     </div>
     <h2 class="section-title">Рецепт дня</h2>
 
-    <div class="recipe-of-day-wrapper"></div>
-    <div class="recipe-card-vertical">
-      <div class="card-media-wrapper">
-        <img :src="recipeOfDay.image" :alt="recipeOfDay.title" class="recipe-main-img" />
-
-        <button class="card-favorite-action" aria-label="Додати в улюблене">
-          <img :src="iconHeart" alt="Сердечко" class="icon-heart" />
-        </button>
-      </div>
-
-      <div class="card-body-details">
-        <div class="badge-row">
-          <span class="category-badge-pill type-breakfast">{{ recipeOfDay.category }}</span>
-
-          <span class="category-badge-pill" :class="{ 'type-veg': recipeOfDay.isVegetarian }">
-            <img :src="iconLeaf" alt="Листочок" class="icon-leaf" />
-            Вегетаріанська
-          </span>
-        </div>
-
-        <h3 class="card-recipe-title">{{ recipeOfDay.title }}</h3>
-
-        <div class="card-meta-info-row">
-          <span class="meta-item">
-            <img :src="iconClock" alt="Годинник" class="icon-clock" />
-            {{ recipeOfDay.cookingTime }} хв
-          </span>
-
-          <span class="meta-item">
-            <img :src="iconList" alt="Список" class="icon-list" />
-            {{ ingredients.length }} інгредієнтів
-          </span>
-        </div>
-      </div>
+    <div class="recipe-of-day-wrapper">
+      <RecipeCard :recipe="recipeOfDay" />
     </div>
 
     <div class="portions-counter">
@@ -227,44 +191,7 @@ watch(portions, (newVal) => {
       <h2 class="section-title">Усі рецепти</h2>
 
       <div v-if="filteredRecipes.length > 0" class="recipes-grid">
-        <div v-for="recipe in filteredRecipes" :key="recipe.id" class="recipe-card-vertical">
-          <div class="card-media-wrapper">
-            <img
-              v-if="recipe.image"
-              :src="recipe.image"
-              :alt="recipe.title"
-              class="recipe-main-img"
-            />
-
-            <button class="card-favorite-action" aria-label="Додати в улюблене">
-              <img :src="iconHeart" alt="Сердечко" class="icon-heart" />
-            </button>
-          </div>
-
-          <div class="card-body-details">
-            <div class="badge-row">
-              <span class="category-badge-pill type-breakfast">{{ recipe.category }}</span>
-
-              <span v-if="recipe.isVegetarian" class="category-badge-pill type-veg">
-                <img :src="iconLeaf" alt="Листочок" class="icon-leaf" />
-                Вегетаріанська
-              </span>
-            </div>
-
-            <h3 class="card-recipe-title">{{ recipe.title }}</h3>
-
-            <div class="card-meta-info-row">
-              <span class="meta-item">
-                <img :src="iconClock" alt="Годинник" class="icon-clock" />
-                {{ recipe.cookingTime }} хв
-              </span>
-              <span class="meta-item">
-                <img :src="iconList" alt="Список" class="icon-list" />
-                {{ recipe.ingredientsCount }} інгредієнтів
-              </span>
-            </div>
-          </div>
-        </div>
+        <RecipeCard v-for="recipe in filteredRecipes" :key="recipe.id" :recipe="recipe" />
       </div>
 
       <div v-else class="empty-state-box">
