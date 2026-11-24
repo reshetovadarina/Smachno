@@ -1,13 +1,6 @@
 import imgSyrnyky from '../images/syrnyky.jpg'
 
-export const initialCookingTime = 35
-
-export const initialRecipeOfDay = {
-  title: 'Сирники з ягідним соусом',
-  category: 'Сніданок',
-  image: imgSyrnyky,
-  isVegetarian: true
-}
+export const RECIPE_OF_DAY_ID = 1
 
 export const initialIngredients = [
   { id: 1, name: 'Кисломолочний сир', amountPerPortion: 125, unit: 'г' },
