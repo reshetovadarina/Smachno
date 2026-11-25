@@ -2,6 +2,7 @@
 import { ref, reactive, computed, watch } from 'vue'
 import RecipeCard from './components/RecipeCard.vue'
 import RecipeFilters from './components/RecipeFilters.vue'
+import CookingTimer from './components/CookingTimer.vue'
 import iconSearch from './icons/search.svg'
 import iconSun from './icons/sun.svg'
 import iconMoon from './icons/moon.svg'
@@ -161,6 +162,7 @@ watch(
         +
       </button>
     </div>
+    <CookingTimer :initial-minutes="recipeOfDay.cookingTime" />
     <div class="ingredients-preview">
       <div class="ingredients-header">
         <h3 class="ingredients-title">Інгредієнти (на {{ portions }} порц.)</h3>
