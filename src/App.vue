@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, computed, watch } from 'vue'
+import { ref, reactive, computed, watch, onMounted } from 'vue'
 import RecipeCard from './components/RecipeCard.vue'
 import RecipeFilters from './components/RecipeFilters.vue'
 import CookingTimer from './components/CookingTimer.vue'
@@ -17,8 +17,7 @@ const isDark = ref(localStorage.getItem(THEME_STORAGE_KEY) === 'dark')
 const searchQuery = ref('')
 const showTimer = ref(true)
 const selectedCategory = ref('')
-const savedFavorites = JSON.parse(localStorage.getItem(FAVORITES_STORAGE_KEY) || '[]')
-const favoriteIds = ref(Array.isArray(savedFavorites) ? savedFavorites : [])
+const favoriteIds = ref([])
 
 const savedPortions = Number(localStorage.getItem(PORTIONS_STORAGE_KEY))
 const portions = ref(savedPortions >= 1 ? savedPortions : 4)
@@ -79,6 +78,13 @@ const toggleFavorite = (recipeId) => {
     favoriteIds.value.splice(index, 1)
   }
 }
+
+onMounted(() => {
+  const savedFavorites = JSON.parse(localStorage.getItem(FAVORITES_STORAGE_KEY) || '[]')
+  if (Array.isArray(savedFavorites)) {
+    favoriteIds.value = savedFavorites
+  }
+})
 
 watch(
   isDark,
