@@ -59,6 +59,7 @@ onMounted(() => {
         <option value="">Усі категорії</option>
         <option value="Сніданок">Сніданок</option>
         <option value="Обід">Обід</option>
+        <option value="Вечеря">Вечеря</option>
         <option value="Десерт">Десерт</option>
       </select>
       <img :src="iconChevronDown" alt="" class="select-icon-arrow" />

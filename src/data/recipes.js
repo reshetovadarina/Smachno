@@ -50,5 +50,77 @@ export const recipesList = [
     ingredientsCount: 6,
     image: '',
     isVegetarian: true
+  },
+  {
+    id: 5,
+    title: 'Вівсянка з карамелізованим бананом',
+    category: 'Сніданок',
+    cookingTime: 15,
+    ingredientsCount: 5,
+    image: '',
+    isVegetarian: true
+  },
+  {
+    id: 6,
+    title: 'Крем-суп із запеченого гарбуза',
+    category: 'Обід',
+    cookingTime: 40,
+    ingredientsCount: 8,
+    image: '',
+    isVegetarian: true
+  },
+  {
+    id: 7,
+    title: 'Запечений лосось зі спаржею',
+    category: 'Вечеря',
+    cookingTime: 30,
+    ingredientsCount: 6,
+    image: '',
+    isVegetarian: false
+  },
+  {
+    id: 8,
+    title: 'Львівський сирник у шоколадній глазурі',
+    category: 'Десерт',
+    cookingTime: 65,
+    ingredientsCount: 10,
+    image: '',
+    isVegetarian: true
+  },
+  {
+    id: 9,
+    title: 'Шакшука з фетою та свіжою зеленню',
+    category: 'Сніданок',
+    cookingTime: 25,
+    ingredientsCount: 8,
+    image: '',
+    isVegetarian: true
+  },
+  {
+    id: 10,
+    title: 'Карпатський банош із бринзою та шкварками',
+    category: 'Обід',
+    cookingTime: 45,
+    ingredientsCount: 7,
+    image: '',
+    isVegetarian: false
+  },
+  {
+    id: 11,
+    title: 'Паста з грибами у вершковому соусі',
+    category: 'Вечеря',
+    cookingTime: 25,
+    ingredientsCount: 8,
+    image: '',
+    isVegetarian: true
+  },
+  {
+    id: 12,
+    title: 'Медовик зі сметанним кремом та горіхами',
+    category: 'Десерт',
+    cookingTime: 80,
+    ingredientsCount: 11,
+    image: '',
+    isVegetarian: true
   }
 ]

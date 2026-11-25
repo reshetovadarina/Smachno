@@ -1,8 +1,14 @@
 <script setup>
 import { ref, reactive, computed, watch, onMounted } from 'vue'
+
 import RecipeCard from './components/RecipeCard.vue'
 import RecipeFilters from './components/RecipeFilters.vue'
 import CookingTimer from './components/CookingTimer.vue'
+
+import iconChefHat from './icons/chef-hat.svg'
+import iconLeaf from './icons/leaf.svg'
+import iconClock from './icons/clock.svg'
+import iconList from './icons/list.svg'
 import iconSearch from './icons/search.svg'
 import iconSun from './icons/sun.svg'
 import iconMoon from './icons/moon.svg'
@@ -15,9 +21,9 @@ const FAVORITES_STORAGE_KEY = 'smachno-favorites'
 
 const isDark = ref(localStorage.getItem(THEME_STORAGE_KEY) === 'dark')
 const searchQuery = ref('')
-const showTimer = ref(true)
 const selectedCategory = ref('')
 const favoriteIds = ref([])
+const showTimer = ref(true)
 
 const savedPortions = Number(localStorage.getItem(PORTIONS_STORAGE_KEY))
 const portions = ref(savedPortions >= 1 ? savedPortions : 4)
@@ -28,8 +34,8 @@ const ingredients = reactive([...initialIngredients])
 
 const themeToggle = computed(() =>
   isDark.value
-    ? { icon: iconSun, label: 'Світла', ariaLabel: 'Увімкнути світлу тему' }
-    : { icon: iconMoon, label: 'Темна', ariaLabel: 'Увімкнути темну тему' }
+    ? { icon: iconSun, ariaLabel: 'Увімкнути світлу тему' }
+    : { icon: iconMoon, ariaLabel: 'Увімкнути темну тему' }
 )
 
 const ingredientsCountLabel = computed(() => `Інгредієнтів: ${ingredients.length}`)
@@ -60,6 +66,15 @@ const resetFilters = () => {
   selectedCategory.value = ''
 }
 
+const toggleFavorite = (recipeId) => {
+  const index = favoriteIds.value.indexOf(recipeId)
+  if (index === -1) {
+    favoriteIds.value.push(recipeId)
+  } else {
+    favoriteIds.value.splice(index, 1)
+  }
+}
+
 const decreasePortions = () => {
   if (portions.value > 1) {
     portions.value--
@@ -68,15 +83,6 @@ const decreasePortions = () => {
 
 const increasePortions = () => {
   portions.value++
-}
-
-const toggleFavorite = (recipeId) => {
-  const index = favoriteIds.value.indexOf(recipeId)
-  if (index === -1) {
-    favoriteIds.value.push(recipeId)
-  } else {
-    favoriteIds.value.splice(index, 1)
-  }
 }
 
 onMounted(() => {
@@ -113,86 +119,79 @@ watch(
 </script>
 
 <template>
-  <header class="app-header">
-    <div class="header-top-row">
-      <div class="header-titles">
-        <h1 class="app-title">Смачно</h1>
-        <p class="app-subtitle">Інтерактивна кулінарна книга</p>
+  <header class="app-navbar">
+    <div class="navbar-inner">
+      <div class="brand-logo">
+        <span class="brand-badge">
+          <img :src="iconChefHat" alt="Логотип Смачно" class="brand-icon" />
+        </span>
+        <span class="brand-name">Смачно</span>
       </div>
-      <button
-        @click="toggleTheme"
-        type="button"
-        class="theme-toggle-btn"
-        :aria-label="themeToggle.ariaLabel"
-      >
-        <img :src="themeToggle.icon" alt="Іконка теми" class="theme-icon" />
-        <span>{{ themeToggle.label }}</span>
-      </button>
+
+      <div class="navbar-actions">
+        <span class="nav-pill is-active nav-pill-text">Каталог</span>
+        <span class="nav-pill">
+          <span class="nav-pill-text">Обране</span>
+          <span v-if="favoriteIds.length > 0" class="nav-fav-count">{{ favoriteIds.length }}</span>
+        </span>
+        <span class="nav-pill nav-pill-text">Додати рецепт</span>
+
+        <button
+          @click="toggleTheme"
+          type="button"
+          class="theme-toggle-btn"
+          :aria-label="themeToggle.ariaLabel"
+        >
+          <img :src="themeToggle.icon" alt="Тема" class="theme-icon" />
+        </button>
+      </div>
     </div>
   </header>
 
-  <main class="recipe-section">
-    <RecipeFilters
-      v-model:search-query="searchQuery"
-      v-model:selected-category="selectedCategory"
-    />
-    <h2 class="section-title">Рецепт дня</h2>
+  <main class="container">
+    <section v-if="recipeOfDay" class="hero-recipe-banner">
+      <div class="hero-media">
+        <img v-if="recipeOfDay.image" :src="recipeOfDay.image" :alt="recipeOfDay.title" />
+      </div>
 
-    <div class="recipe-of-day-wrapper">
-      <RecipeCard
-        :recipe="recipeOfDay"
-        :is-favorite="favoriteIds.includes(recipeOfDay.id)"
-        @toggle-favorite="toggleFavorite"
+      <div class="hero-content">
+        <div class="badge-row">
+          <span class="category-badge-pill hero-badge-day">Рецепт дня</span>
+          <span v-if="recipeOfDay.isVegetarian" class="category-badge-pill type-veg">
+            <img :src="iconLeaf" alt="" class="icon-leaf" />
+            Вегетаріанська
+          </span>
+        </div>
+
+        <h1 class="hero-title">{{ recipeOfDay.title }}</h1>
+        <p class="hero-desc">
+          Ніжні сирники на сковорідці з теплим соусом із заморожених ягід. Готуються з простих
+          продуктів і смакують як удома.
+        </p>
+
+        <div class="hero-meta-row">
+          <span class="meta-item">
+            <img :src="iconClock" alt="" class="icon-clock" />
+            {{ recipeOfDay.cookingTime }} хв
+          </span>
+          <span class="meta-item">
+            <img :src="iconList" alt="" class="icon-list" />
+            {{ ingredients.length }} інгредієнтів
+          </span>
+          <span class="meta-item"> {{ portions }} порц. </span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="catalog-heading">Каталог рецептів</h2>
+
+      <RecipeFilters
+        v-model:search-query="searchQuery"
+        v-model:selected-category="selectedCategory"
       />
-    </div>
 
-    <div class="portions-counter">
-      <button
-        class="portions-btn"
-        @click="decreasePortions"
-        :disabled="portions <= 1"
-        aria-label="Зменшити кількість порцій"
-      >
-        −
-      </button>
-
-      <div class="portions-info">
-        <span class="portions-value">{{ portions }}</span>
-        <span class="portions-label">порції</span>
-      </div>
-
-      <button
-        class="portions-btn"
-        @click="increasePortions"
-        aria-label="Збільшити кількість порцій"
-      >
-        +
-      </button>
-    </div>
-    <button type="button" class="timer-btn" @click="showTimer = !showTimer">
-      {{ showTimer ? 'Сховати таймер' : 'Показати таймер' }}
-    </button>
-
-    <CookingTimer v-if="showTimer" :initial-minutes="recipeOfDay.cookingTime" />
-    <div class="ingredients-preview">
-      <div class="ingredients-header">
-        <h3 class="ingredients-title">Інгредієнти (на {{ portions }} порц.)</h3>
-        <span class="ingredients-count-badge">{{ ingredientsCountLabel }}</span>
-      </div>
-
-      <ul class="ingredients-list">
-        <li v-for="item in calculatedIngredients" :key="item.id" class="ingredient-item">
-          <div class="ingredient-name-wrapper">
-            <span class="ingredient-dot"></span>
-            <span class="ingredient-name">{{ item.name }}</span>
-          </div>
-          <span class="ingredient-amount">{{ item.totalAmount }} {{ item.unit }}</span>
-        </li>
-      </ul>
-    </div>
-
-    <section class="all-recipes-section">
-      <h2 class="section-title">Усі рецепти</h2>
+      <p class="results-count-text">Знайдено {{ filteredRecipes.length }} рецептів</p>
 
       <div v-if="filteredRecipes.length > 0" class="recipes-grid">
         <RecipeCard
@@ -207,61 +206,66 @@ watch(
       <div v-else class="empty-state-box">
         <img :src="iconSearch" alt="" class="empty-state-icon" />
         <h3 class="empty-state-title">Такого рецепта ще немає</h3>
-        <p class="empty-state-desc">Спробуйте змінити пошуковий запит або обрати іншу категорію</p>
+        <p class="empty-state-desc">Спробуйте іншу назву або приберіть фільтр категорії.</p>
         <button @click="resetFilters" type="button" class="reset-filters-btn">
           Скинути фільтри
         </button>
       </div>
     </section>
+
+    <section class="practice-widgets-grid">
+      <div class="ingredients-preview">
+        <div class="ingredients-header">
+          <div>
+            <h3 class="ingredients-title">Інгредієнти</h3>
+            <span class="ingredients-count-badge">{{ ingredientsCountLabel }}</span>
+          </div>
+
+          <div class="portions-counter">
+            <button
+              class="portions-btn"
+              @click="decreasePortions"
+              :disabled="portions <= 1"
+              aria-label="Зменшити кількість порцій"
+            >
+              −
+            </button>
+
+            <div class="portions-info">
+              <span class="portions-value">{{ portions }}</span>
+              <span class="portions-label">порції</span>
+            </div>
+
+            <button
+              class="portions-btn"
+              @click="increasePortions"
+              aria-label="Збільшити кількість порцій"
+            >
+              +
+            </button>
+          </div>
+        </div>
+
+        <ul class="ingredients-list">
+          <li v-for="item in calculatedIngredients" :key="item.id" class="ingredient-item">
+            <div class="ingredient-name-wrapper">
+              <span class="ingredient-dot"></span>
+              <span class="ingredient-name">{{ item.name }}</span>
+            </div>
+            <span class="ingredient-amount">{{ item.totalAmount }} {{ item.unit }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="timer-column">
+        <div>
+          <button type="button" class="timer-btn" @click="showTimer = !showTimer">
+            {{ showTimer ? 'Сховати таймер' : 'Показати таймер' }}
+          </button>
+        </div>
+
+        <CookingTimer v-if="showTimer" :initial-minutes="recipeOfDay.cookingTime" />
+      </div>
+    </section>
   </main>
 </template>
-
-<style scoped>
-.app-header {
-  margin-bottom: 40px;
-}
-
-.header-top-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-}
-
-.header-titles {
-  text-align: left;
-}
-
-.app-title {
-  font-size: 3rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-  color: var(--text-primary);
-}
-
-.app-subtitle {
-  font-size: 1.1rem;
-  color: var(--text-muted);
-}
-
-.section-title {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  color: var(--text-primary);
-  text-align: center;
-}
-
-.recipe-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 24px;
-}
-
-.recipe-of-day-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: center;
-}
-</style>
