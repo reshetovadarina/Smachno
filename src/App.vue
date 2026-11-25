@@ -15,6 +15,7 @@ const FAVORITES_STORAGE_KEY = 'smachno-favorites'
 
 const isDark = ref(localStorage.getItem(THEME_STORAGE_KEY) === 'dark')
 const searchQuery = ref('')
+const showTimer = ref(true)
 const selectedCategory = ref('')
 const savedFavorites = JSON.parse(localStorage.getItem(FAVORITES_STORAGE_KEY) || '[]')
 const favoriteIds = ref(Array.isArray(savedFavorites) ? savedFavorites : [])
@@ -162,7 +163,11 @@ watch(
         +
       </button>
     </div>
-    <CookingTimer :initial-minutes="recipeOfDay.cookingTime" />
+    <button type="button" class="timer-btn" @click="showTimer = !showTimer">
+      {{ showTimer ? 'Сховати таймер' : 'Показати таймер' }}
+    </button>
+
+    <CookingTimer v-if="showTimer" :initial-minutes="recipeOfDay.cookingTime" />
     <div class="ingredients-preview">
       <div class="ingredients-header">
         <h3 class="ingredients-title">Інгредієнти (на {{ portions }} порц.)</h3>

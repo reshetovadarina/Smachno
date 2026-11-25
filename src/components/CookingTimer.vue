@@ -27,6 +27,7 @@ const startTimer = () => {
 
   isRunning.value = true
   intervalId = setInterval(() => {
+    console.log('тік')
     if (secondsLeft.value > 0) {
       secondsLeft.value--
     } else {
