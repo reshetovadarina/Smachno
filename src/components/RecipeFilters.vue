@@ -1,4 +1,5 @@
 <script setup>
+import { useTemplateRef, onMounted } from 'vue'
 import iconSearch from '../icons/search.svg'
 import iconClose from '../icons/close.svg'
 import iconChevronDown from '../icons/chevron-down.svg'
@@ -15,6 +16,12 @@ defineProps({
 })
 
 defineEmits(['update:searchQuery', 'update:selectedCategory'])
+
+const searchInput = useTemplateRef('searchInput')
+
+onMounted(() => {
+  searchInput.value?.focus()
+})
 </script>
 
 <template>
@@ -23,6 +30,7 @@ defineEmits(['update:searchQuery', 'update:selectedCategory'])
       <img :src="iconSearch" alt="Пошук" class="search-icon-left" />
 
       <input
+        ref="searchInput"
         :value="searchQuery"
         @input="$emit('update:searchQuery', $event.target.value)"
         type="text"
